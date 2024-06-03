@@ -1,8 +1,8 @@
 import { Input } from "@/components/ui/input";
-
-import { login, signup } from "./actions";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+
+import { login, signup } from "./actions";
 
 export default function LoginPage() {
     return (

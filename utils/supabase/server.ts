@@ -4,8 +4,6 @@ import { cookies } from "next/headers";
 export function createClient() {
     const cookieStore = cookies();
 
-    // Create a server's supabase client with newly configured cookie,
-    // which could be used to maintain user's session
     return createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL as string,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
@@ -17,11 +15,7 @@ export function createClient() {
                 set(name: string, value: string, options: CookieOptions) {
                     try {
                         cookieStore.set({ name, value, ...options });
-                    } catch (error) {
-                        // The `set` method was called from a Server Component.
-                        // This can be ignored if you have middleware refreshing
-                        // user sessions.
-                    }
+                    } catch (error) {}
                 },
                 remove(name: string, options: CookieOptions) {
                     try {

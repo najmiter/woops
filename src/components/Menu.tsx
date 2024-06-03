@@ -11,7 +11,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { User } from "@supabase/supabase-js";
 
-export default function menu({ user }: { user: User | null }) {
+export default function Menu({ user }: { user: User | null }) {
     return (
         <div className="flex justify-between">
             <Menubar>

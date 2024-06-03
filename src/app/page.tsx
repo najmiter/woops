@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { EditorState } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+// import draftToHtml from "draftjs-to-html";
 
 import Menu from "@/components/Menu";
 import { isSignedIn } from "./login/actions";
@@ -14,12 +15,14 @@ const Editor = dynamic(
     { ssr: false }
 );
 
-function App() {
+export default function App() {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [user, setUser] = useState<User | null>(null);
 
     const onEditorStateChange = (newEditorState: EditorState): void => {
         setEditorState(newEditorState);
+        // const raw = convertToRaw(newEditorState.getCurrentContent());
+        // const html = draftToHtml(raw);
     };
 
     useEffect(function () {
@@ -44,5 +47,3 @@ function App() {
         </div>
     );
 }
-
-export default App;
