@@ -5,6 +5,8 @@ import dynamic from "next/dynamic";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
+import Menu from "@/components/Menu";
+
 const Editor = dynamic(
     () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
     { ssr: false }
@@ -20,7 +22,8 @@ function RichTextExample() {
     };
 
     return (
-        <div className="p-10">
+        <div className="p-10 space-y-3">
+            <Menu />
             <Editor
                 editorState={editorState}
                 onEditorStateChange={onEditorStateChange}
