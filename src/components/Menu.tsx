@@ -29,10 +29,7 @@ export default function Menu({ user }: { user: User | null }) {
                 </MenubarMenu>
             </Menubar>
             <div className="flex gap-3">
-                <Link href="/login">
-                    <Button variant="default">Login</Button>
-                </Link>
-                {user && (
+                {user ? (
                     <div>
                         <form action="/auth/signout" method="post">
                             <Button variant="ghost" type="submit">
@@ -40,6 +37,10 @@ export default function Menu({ user }: { user: User | null }) {
                             </Button>
                         </form>
                     </div>
+                ) : (
+                    <Link href="/login">
+                        <Button variant="ghost">Login</Button>
+                    </Link>
                 )}
             </div>
         </div>

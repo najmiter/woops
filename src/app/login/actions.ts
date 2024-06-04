@@ -48,5 +48,7 @@ export async function isSignedIn() {
         data: { user },
     } = await supabase.auth.getUser();
 
+    if (!user) redirect("/login");
+
     return user;
 }
