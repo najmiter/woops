@@ -16,7 +16,7 @@ export async function login(formData: FormData) {
     const { error } = await supabase.auth.signInWithPassword(data);
 
     if (error) {
-        throw error;
+        return { error: error.message };
     }
 
     revalidatePath("/", "layout");
@@ -34,11 +34,12 @@ export async function signup(formData: FormData) {
     const { error } = await supabase.auth.signUp(data);
 
     if (error) {
-        redirect("/");
+        console.log(error.message);
+
+        return { error: error.message };
     }
 
-    revalidatePath("/", "layout");
-    redirect("/");
+    return { error: "Check your mail to confirm" };
 }
 
 export async function isSignedIn() {

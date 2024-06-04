@@ -5,21 +5,24 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 import { login, signup } from "./actions";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
     const [isThinking, startTransition] = useTransition();
+    const [error, setError] = useState<string | undefined>("");
 
     function handleLogin(formData: FormData) {
+        setError("");
         startTransition(() => {
-            login(formData);
+            login(formData).then((data) => setError(data?.error || ""));
         });
     }
 
     function handleSignup(formData: FormData) {
+        setError("");
         startTransition(() => {
-            signup(formData);
+            signup(formData).then((data) => setError(data?.error));
         });
     }
 
@@ -49,8 +52,13 @@ export default function LoginPage() {
                         required
                     />
                 </div>
+                {error && (
+                    <div className="text-sm bg-destructive/10 text-destructive px-5 py-3 rounded-md">
+                        {error}
+                    </div>
+                )}
                 <div
-                    className={cn("flex gap-3", {
+                    className={cn("flex flex-col gap-3", {
                         "opacity-55 pointer-events-none cursor-not-allowed":
                             isThinking,
                     })}
