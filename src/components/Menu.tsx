@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Menubar,
     MenubarContent,
@@ -8,10 +10,12 @@ import {
     MenubarTrigger,
 } from "@/components/ui/menubar";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 export default function Menu({ user }: { user: User | null }) {
+    const router = useRouter();
     return (
         <div className="flex justify-between">
             <Menubar>
@@ -22,9 +26,9 @@ export default function Menu({ user }: { user: User | null }) {
                             Save <MenubarShortcut>⌘S</MenubarShortcut>
                         </MenubarItem>
                         <MenubarSeparator />
-                        <MenubarItem>Share</MenubarItem>
-                        <MenubarSeparator />
-                        <MenubarItem>Print</MenubarItem>
+                        <MenubarItem onClick={() => router.push("/home")}>
+                            Home
+                        </MenubarItem>
                     </MenubarContent>
                 </MenubarMenu>
             </Menubar>

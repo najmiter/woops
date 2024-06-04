@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 export default function LoginPage() {
     const [isThinking, startTransition] = useTransition();
     const [error, setError] = useState<string | undefined>("");
+    const [message, setMessage] = useState<string | undefined>("");
 
     function handleLogin(formData: FormData) {
         setError("");
@@ -22,7 +23,7 @@ export default function LoginPage() {
     function handleSignup(formData: FormData) {
         setError("");
         startTransition(() => {
-            signup(formData).then((data) => setError(data?.error));
+            signup(formData).then((data) => setMessage(data?.error));
         });
     }
 
@@ -57,14 +58,19 @@ export default function LoginPage() {
                         {error}
                     </div>
                 )}
+                {message && (
+                    <div className="text-sm bg-emerald-800/10 text-emerald-500 px-5 py-3 rounded-md">
+                        {message}
+                    </div>
+                )}
                 <div
                     className={cn("flex flex-col gap-3 mt-5", {
-                        "opacity-55 pointer-events-none cursor-not-allowed":
+                        "opacity-55 pointer-events-none cursor-progress":
                             isThinking,
                     })}
                 >
                     <Button formAction={handleLogin}>Log in</Button>
-                    <Button variant="ghost" formAction={handleSignup}>
+                    <Button variant="outline" formAction={handleSignup}>
                         Sign up
                     </Button>
                 </div>
