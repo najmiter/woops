@@ -27,8 +27,8 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            <form className="basis-1/3 flex flex-col gap-3 border border-slate-100 shadow-lg p-10 py-16 rounded-lg">
+        <div className="flex items-center justify-center h-screen px-3 bg-gradient-to-r from-slate-900 to-slate-800">
+            <form className="w-full max-w-[30rem] flex flex-col gap-3 border bg-white border-slate-100 shadow-lg p-10 rounded-lg">
                 <h1 className="font-semibold text-2xl text-center mb-5">
                     Log in or sign up
                 </h1>
@@ -58,7 +58,7 @@ export default function LoginPage() {
                     </div>
                 )}
                 <div
-                    className={cn("flex flex-col gap-3", {
+                    className={cn("flex flex-col gap-3 mt-5", {
                         "opacity-55 pointer-events-none cursor-not-allowed":
                             isThinking,
                     })}
