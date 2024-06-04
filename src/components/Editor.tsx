@@ -16,6 +16,7 @@ export default function EditorPage() {
 
     const onEditorStateChange = (newEditorState: EditorState): void => {
         setEditorState(newEditorState);
+        // console.log(newEditorState);
     };
 
     return (
