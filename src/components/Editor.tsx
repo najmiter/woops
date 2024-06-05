@@ -14,18 +14,23 @@ const Editor = dynamic(
 );
 
 export default function EditorPage() {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [editorState, setEditorState] = useState<EditorState | undefined>();
+    const [error, setError] = useState("");
     const urlParams = useSearchParams();
+
+    const documentId = urlParams.get("id");
 
     useEffect(
         function () {
             async function getFiles(id: string) {
-                const { data, error } = await supabase
-                    .from("Woops")
-                    .select("*")
-                    .eq("id", id);
-
                 try {
+                    const { data, error } = await supabase
+                        .from("Woops")
+                        .select("*")
+                        .eq("id", id);
+
+                    if (error) return setError(error.message);
+
                     if (data) {
                         const contentState = convertFromRaw(
                             data[0].document_data
@@ -38,15 +43,21 @@ export default function EditorPage() {
                 } catch {}
             }
 
-            const id = urlParams.get("id");
-            if (id) getFiles(id);
+            if (documentId) getFiles(documentId);
         },
-        [urlParams]
+        [documentId]
     );
 
     const onEditorStateChange = (newEditorState: EditorState): void => {
         setEditorState(newEditorState);
     };
+
+    if (error)
+        return (
+            <div className="text-destructive text-center bg-destructive/20 py-3 px-5 w-fit mx-auto rounded-md">
+                Something went wrong. Please try again
+            </div>
+        );
 
     return (
         <Editor
