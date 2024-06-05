@@ -15,6 +15,7 @@ export default function LoginPage() {
 
     function handleLogin(formData: FormData) {
         setError("");
+        setMessage("");
         startTransition(() => {
             login(formData).then((data) => setError(data?.error || ""));
         });
@@ -22,8 +23,9 @@ export default function LoginPage() {
 
     function handleSignup(formData: FormData) {
         setError("");
+        setMessage("");
         startTransition(() => {
-            signup(formData).then((data) => setMessage(data?.error));
+            signup(formData).then((data) => setMessage(data.message));
         });
     }
 
