@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
+import React, { useEffect, useTransition } from "react";
+import { EditorState, convertFromRaw } from "draft-js";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -16,6 +16,7 @@ const Editor = dynamic(
 export default function EditorPage() {
     const [editorState, setEditorState] = useState<EditorState | undefined>();
     const [error, setError] = useState("");
+    const [isThinking, startTransition] = useTransition();
     const urlParams = useSearchParams();
 
     const documentId = urlParams.get("id");
@@ -43,7 +44,7 @@ export default function EditorPage() {
                 } catch {}
             }
 
-            if (documentId) getFiles(documentId);
+            if (documentId) startTransition(() => getFiles(documentId));
         },
         [documentId]
     );
@@ -58,6 +59,8 @@ export default function EditorPage() {
                 Something went wrong. Please try again
             </div>
         );
+
+    if (!editorState) return null;
 
     return (
         <Editor
