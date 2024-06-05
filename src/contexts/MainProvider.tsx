@@ -39,8 +39,6 @@ export default function MainProvider({
     const [isThinking, startTransaction] = useTransition();
     const [documentTitle, setDocumentTitle] = useState("");
 
-    const [user, setUser] = useState<User | null>(null);
-
     const urlParams = useSearchParams();
     const documentId = urlParams.get("id");
 
