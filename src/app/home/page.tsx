@@ -1,3 +1,4 @@
+import DocumentCard from "@/components/DocumentCard";
 import { isSignedIn } from "../login/actions";
 import { getFiles } from "./actions";
 
@@ -21,7 +22,7 @@ export default async function page() {
                         {data?.map((doc, i) => (
                             <div
                                 key={i}
-                                className="cursor-pointer hover:bg-stone-200"
+                                className="cursor-pointer hover:underline"
                             >
                                 <DocumentCard document={doc} />
                             </div>
@@ -33,14 +34,6 @@ export default async function page() {
                     </div>
                 )}
             </main>
-        </div>
-    );
-}
-
-function DocumentCard({ document }: any) {
-    return (
-        <div className="w-full px-5 py-3 rounded-md ring-stone-200 ring-1 shadow-md">
-            <h1 className="text-lg font-semibold">{document.document_title}</h1>
         </div>
     );
 }

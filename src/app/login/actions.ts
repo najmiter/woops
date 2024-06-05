@@ -34,12 +34,10 @@ export async function signup(formData: FormData) {
     const { error } = await supabase.auth.signUp(data);
 
     if (error) {
-        console.log(error.message);
-
         return { error: error.message };
     }
 
-    return { error: "Check your mail to confirm" };
+    return { error: "Check your inbox to confirm your account" };
 }
 
 export async function isSignedIn() {
