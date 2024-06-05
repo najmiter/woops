@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useTransition } from "react";
+import React, { useEffect } from "react";
 import { EditorState, convertFromRaw } from "draft-js";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { useMain } from "@/contexts/MainProvider";
 
 const Editor = dynamic(
     () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
@@ -14,9 +15,9 @@ const Editor = dynamic(
 );
 
 export default function EditorPage() {
-    const [editorState, setEditorState] = useState<EditorState | undefined>();
+    const { editorState, setEditorState } = useMain();
+
     const [error, setError] = useState("");
-    const [isThinking, startTransition] = useTransition();
     const urlParams = useSearchParams();
 
     const documentId = urlParams.get("id");
@@ -44,9 +45,9 @@ export default function EditorPage() {
                 } catch {}
             }
 
-            if (documentId) startTransition(() => getFiles(documentId));
+            if (documentId) getFiles(documentId);
         },
-        [documentId]
+        [documentId, setEditorState]
     );
 
     const onEditorStateChange = (newEditorState: EditorState): void => {
