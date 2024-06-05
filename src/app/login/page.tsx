@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
-import { login, signup } from "./actions";
+import { signup, login } from "./actions";
 import { useState, useTransition } from "react";
 import { cn } from "@/lib/utils";
 

@@ -5,7 +5,6 @@ import { EditorState, convertFromRaw } from "draft-js";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useMain } from "@/contexts/MainProvider";
 
@@ -15,12 +14,9 @@ const Editor = dynamic(
 );
 
 export default function EditorPage() {
-    const { editorState, setEditorState } = useMain();
+    const { editorState, setEditorState, documentId, handleSave } = useMain();
 
     const [error, setError] = useState("");
-    const urlParams = useSearchParams();
-
-    const documentId = urlParams.get("id");
 
     useEffect(
         function () {
@@ -46,9 +42,34 @@ export default function EditorPage() {
             }
 
             if (documentId) getFiles(documentId);
+            else setEditorState(EditorState.createEmpty());
         },
         [documentId, setEditorState]
     );
+
+    useEffect(() => {
+        const keys_pressed: any = {};
+
+        const handleKeyUp = (btn: KeyboardEvent) =>
+            delete keys_pressed[btn.key];
+
+        const handleKeyDown = (btn: KeyboardEvent) => {
+            keys_pressed[btn.key] = true;
+            console.log(keys_pressed);
+
+            if (keys_pressed["Control"] && keys_pressed["s"]) {
+                handleSave();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("keyup", handleKeyUp);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("keyup", handleKeyUp);
+        };
+    }, []);
 
     const onEditorStateChange = (newEditorState: EditorState): void => {
         setEditorState(newEditorState);

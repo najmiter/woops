@@ -42,7 +42,6 @@ export async function signup(formData: FormData) {
 
 export async function isSignedIn() {
     const supabase = createClient();
-
     const {
         data: { user },
     } = await supabase.auth.getUser();

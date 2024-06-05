@@ -12,24 +12,12 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { User } from "@supabase/supabase-js";
-import { useRouter, useSearchParams } from "next/navigation";
-import { saveFile } from "@/utils/actions";
+import { useRouter } from "next/navigation";
 import { useMain } from "@/contexts/MainProvider";
-import { useTransition } from "react";
 
 export default function Menu({ user }: { user: User | null }) {
-    const urlParams = useSearchParams();
     const router = useRouter();
-    const [isThinking, startTransaction] = useTransition();
-    const { editorState } = useMain();
-
-    const documentId = urlParams.get("id");
-
-    function handleSave() {
-        if (!documentId || !editorState) return;
-
-        startTransaction(() => saveFile(editorState, documentId));
-    }
+    const { handleSave, isThinking } = useMain();
 
     return (
         <div className="flex justify-between">
@@ -38,7 +26,7 @@ export default function Menu({ user }: { user: User | null }) {
                     <MenubarTrigger>File</MenubarTrigger>
                     <MenubarContent>
                         <MenubarItem onClick={handleSave}>
-                            Save <MenubarShortcut>⌘S</MenubarShortcut>
+                            Save <MenubarShortcut>ctrl + S</MenubarShortcut>
                         </MenubarItem>
                         <MenubarSeparator />
                         <MenubarItem onClick={() => router.push("/home")}>
