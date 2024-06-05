@@ -4,7 +4,7 @@ import { insertFile } from "@/app/actions";
 import { getFiles } from "@/app/home/actions";
 import { saveFile } from "@/utils/actions";
 import { User } from "@supabase/supabase-js";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { useSearchParams } from "next/navigation";
 import {
     Dispatch,
@@ -42,17 +42,14 @@ export default function MainProvider({
     const urlParams = useSearchParams();
     const documentId = urlParams.get("id");
 
-    useEffect(
-        function () {
-            if (!documentId)
-                getFiles().then((files) =>
-                    setDocumentTitle(
-                        `Untitled-document-${(files?.length || 0) + 1 || 1}`
-                    )
-                );
-        },
-        [documentId]
-    );
+    useEffect(function () {
+        if (!documentId && !editorState)
+            getFiles().then((files) =>
+                setDocumentTitle(
+                    `Untitled-document-${(files?.length || 0) + 1 || 1}`
+                )
+            );
+    }, []);
 
     function handleSave() {
         if (!documentId || !editorState) return;
