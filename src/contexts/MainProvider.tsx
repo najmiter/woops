@@ -37,7 +37,6 @@ export default function MainProvider({
         if (!documentId || !editorState) return;
 
         startTransaction(() => saveFile(editorState, documentId));
-        console.log(editorState, documentId);
     }
 
     return (
