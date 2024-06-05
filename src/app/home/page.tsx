@@ -1,10 +1,8 @@
 import DocumentCard from "@/components/DocumentCard";
-import { isSignedIn } from "../login/actions";
 import { getFiles } from "./actions";
 
 export default async function page() {
-    const user = await isSignedIn();
-    const data = await getFiles(user.id);
+    const data = await getFiles();
 
     return (
         <div className="h-screen bg-stone-100 ">

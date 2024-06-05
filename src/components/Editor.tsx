@@ -14,8 +14,13 @@ const Editor = dynamic(
 );
 
 export default function EditorPage() {
-    const { editorState, setEditorState, documentId, handleSave } = useMain();
-
+    const {
+        editorState,
+        setEditorState,
+        documentId,
+        handleSave,
+        setDocumentTitle,
+    } = useMain();
     const [error, setError] = useState("");
 
     useEffect(
@@ -37,6 +42,7 @@ export default function EditorPage() {
                             EditorState.createWithContent(contentState);
 
                         setEditorState(editorState);
+                        setDocumentTitle(data[0].document_title);
                     }
                 } catch {}
             }
@@ -44,7 +50,7 @@ export default function EditorPage() {
             if (documentId) getFiles(documentId);
             else setEditorState(EditorState.createEmpty());
         },
-        [documentId, setEditorState]
+        [documentId, setEditorState, setDocumentTitle]
     );
 
     useEffect(() => {
@@ -90,6 +96,8 @@ export default function EditorPage() {
             wrapperClassName="wrapper-class"
             editorClassName="editor-class"
             toolbarClassName="toolbar-class"
+            wrapperStyle={{ paddingInline: "20px" }}
+            editorStyle={{ height: "100vh" }}
             placeholder="Start typing here"
         />
     );

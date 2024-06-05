@@ -17,15 +17,17 @@ import { useMain } from "@/contexts/MainProvider";
 
 export default function Menu({ user }: { user: User | null }) {
     const router = useRouter();
-    const { handleSave, isThinking } = useMain();
+    const { handleSave, isThinking, documentId, handleInsert } = useMain();
 
     return (
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between bg-stone-50 px-5 py-2 shadow-md shadow-slate-300/25">
             <Menubar>
                 <MenubarMenu>
                     <MenubarTrigger>File</MenubarTrigger>
                     <MenubarContent>
-                        <MenubarItem onClick={handleSave}>
+                        <MenubarItem
+                            onClick={documentId ? handleSave : handleInsert}
+                        >
                             Save <MenubarShortcut>ctrl + S</MenubarShortcut>
                         </MenubarItem>
                         <MenubarSeparator />
@@ -40,14 +42,14 @@ export default function Menu({ user }: { user: User | null }) {
                 {user ? (
                     <div>
                         <form action="/auth/signout" method="post">
-                            <Button variant="ghost" type="submit">
+                            <Button variant="outline" type="submit">
                                 Sign out
                             </Button>
                         </form>
                     </div>
                 ) : (
                     <Link href="/login">
-                        <Button variant="ghost">Login</Button>
+                        <Button variant="outline">Login</Button>
                     </Link>
                 )}
             </div>
