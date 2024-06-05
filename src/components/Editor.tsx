@@ -55,7 +55,6 @@ export default function EditorPage() {
 
         const handleKeyDown = (btn: KeyboardEvent) => {
             keys_pressed[btn.key] = true;
-            console.log(keys_pressed);
 
             if (keys_pressed["Control"] && keys_pressed["s"]) {
                 handleSave();
