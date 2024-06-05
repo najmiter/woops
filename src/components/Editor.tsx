@@ -25,13 +25,17 @@ export default function EditorPage() {
                     .select("*")
                     .eq("id", id);
 
-                if (data) {
-                    const contentState = convertFromRaw(data[0].document_data);
-                    const editorState =
-                        EditorState.createWithContent(contentState);
+                try {
+                    if (data) {
+                        const contentState = convertFromRaw(
+                            data[0].document_data
+                        );
+                        const editorState =
+                            EditorState.createWithContent(contentState);
 
-                    setEditorState(editorState);
-                }
+                        setEditorState(editorState);
+                    }
+                } catch {}
             }
 
             const id = urlParams.get("id");
